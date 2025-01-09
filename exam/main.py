@@ -17,7 +17,15 @@ while True:
         else:
             print("Pin code xato")
     elif choice == "2":
-        pass
+        print("1. Kirish")
+        print("2. Ro'yxatdan o'tish")
+        choice = input("Tanlash: ")
+        if choice == "1":
+            userService.userLogin()
+        elif choice == "2":
+            userService.userRegister()
+        else:
+            print("Tanlashda xatolik !\n")
     elif choice == "3":
         break
     else:
