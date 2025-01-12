@@ -34,10 +34,6 @@ class AdminService():
         else:
             print("Raqamlar ro'yxati bo'sh")
 
-    def addNumber(self, number: Number):
-        if number.number in [number.number for number in numbers_list]:
-            pass
-        pass
 
     def checkNumberIsHave(self, number: str):
         if number in [number.number for number in numbers_list]:

@@ -35,7 +35,7 @@ class UserService:
         for user in user_list:
             if user.username == username:
                 return True
-        return True
+        return False
 
     def numberList(self):
         if len(numbers_list) != 0:
@@ -44,10 +44,20 @@ class UserService:
         else:
             print("Raqamlar ro'yxati bo'sh")
 
-    def myNumber(self, user: User):
+    def checkIsSold(self):
         for number in numbers_list:
-            if number.owner.username == user.username:
-                print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
+            if number.isSold:
+                return True
+        return False
+
+    def myNumber(self, user: User):
+        if self.checkIsSold():
+            for number in numbers_list:
+                if number.owner.username == user.username:
+                    print(
+                        f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
+        else:
+            print("Sizda raqamlar mavjud emas")
 
     def getNumberById(self, id: int) -> Number:
         for number in numbers_list:
@@ -70,7 +80,6 @@ class UserService:
                 else:
                     print("Raqam sotish bekor qilindi")
 
-
     def userLogin(self):
         login = input("Login: ")
         password = input("Password: ")
@@ -78,6 +87,7 @@ class UserService:
             self.userPanel(self.getUser(login, password))
         else:
             print("Foydalanuvchi mavjud emas")
+
     def editProfile(self, user: User):
         username = input("Username: ")
         if not self.checkUserName(username):
@@ -86,11 +96,10 @@ class UserService:
             user.username = username
             user.password = password
             user.address = address
-            indexus =user_list.index(user)
+            indexus = user_list.index(user)
             user_list[indexus] = user
         else:
             print("Foydalanuvchi username mavjud !")
-
 
     def userRegister(self):
         username = input("Username: ")
@@ -102,12 +111,14 @@ class UserService:
             self.userPanel(user)
         else:
             print("Foydalanuvchi username mavjud !")
+
     def searchNumber(self, user: User):
         number = input("Raqamni kiriting: ")
         if self.checkNumberIsHave(number):
             for number in numbers_list:
                 if number.number == number:
-                    print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
+                    print(
+                        f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
         else:
             print("Raqam mavjud emas")
 
@@ -126,7 +137,6 @@ class UserService:
                 print(f"Username: {user.username} | Password: {user.password} | Address: {user.address}")
             elif choice == "2":
                 self.numberList()
-
             elif choice == "3":
                 self.myNumber(user)
             elif choice == "4":
@@ -137,4 +147,3 @@ class UserService:
                 self.searchNumber(user)
             elif choice == "7":
                 break
-

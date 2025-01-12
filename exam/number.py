@@ -6,3 +6,11 @@ class Number:
         self.isSold=isSold
         self.price=price
         self.owner=owner
+    def toDict(self):
+        return {
+            "id":self.id,
+            "number":self.number,
+            "isSold":self.isSold,
+            "price":self.price,
+            "owner":self.owner
+        }

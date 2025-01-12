@@ -1,16 +1,14 @@
-from exam.number import Number
-
-
 class User:
-    __numbers: list[Number] = []
-    def __init__(self, username, password,address):
+    def __init__(self, username, password, address):
         self.username = username
-        self.address = address
         self.password = password
+        self.address = address
+        self.__numbers = []  # Encapsulated attribute
+
     @property
-    def getNumbers(self):
+    def numbers(self):  # Pythonic naming, simply 'numbers'
         return self.__numbers
 
-    @getNumbers.setter
-    def setNumbers(self, number):
-        self.__numbers.append(number)
+    @numbers.setter
+    def numbers(self, number):  # Same name as the property
+        self.__numbers.append(number)  # Append a number to the list
