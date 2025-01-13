@@ -1,8 +1,7 @@
-from share_data import user_file, numbers_file
-from file_utils import readListUser, readList, writeList, deleteByIdUser, deleteById, updateById, updateByIdUser, \
-    updateUserNumbers, changeNumberOwner
-from models import User, Number
-from share_data import admin
+from exam_with_file.share_data.share_data import user_file, numbers_file
+from exam_with_file.utils.file_utils import readListUser, readList, writeList
+from exam_with_file.models.models import Number
+from exam_with_file.share_data.share_data import admin
 
 
 class AdminService:
@@ -56,7 +55,12 @@ class AdminService:
     def numberList(self):
         if len(self.numbers) != 0:
             for number in self.numbers:
-                print(f"ID: {number.id} | Number: {number.number} | Owner: {number.owner.username}")
+                if number.isSold:
+                    print(
+                        f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold} | Raqam egasi : {number.owner.username}")
+                else:
+                    print(
+                        f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
         else:
             print("Avto raqamlar ro'yxati bo'sh")
 

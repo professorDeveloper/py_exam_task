@@ -1,6 +1,6 @@
-from models import User, Number
-from file_utils import writeList, readListUser, readList
-from share_data import user_file, numbers_file
+from exam_with_file.models.models import User
+from exam_with_file.utils.file_utils import writeList, readListUser, readList
+from exam_with_file.share_data.share_data import user_file, numbers_file
 
 
 class UserService:
@@ -68,9 +68,10 @@ class UserService:
     def myNumber(self, user: User):
         if len(self.numbers) != 0:
             for number in self.numbers:
-                if number.owner.username == user.username:
-                    print(
-                        f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
+              if number.isSold:
+                  if number.owner.username == user.username:
+                      print(
+                          f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
         else:
             print("Sizda raqamlar mavjud emas")
 

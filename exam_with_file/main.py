@@ -1,5 +1,5 @@
-from exam_with_file.user_service import UserService
-from exam_with_file.admin_service import AdminService
+from exam_with_file.services.user_service import UserService
+from exam_with_file.services.admin_service import AdminService
 
 userService = UserService()
 adminService = AdminService()
