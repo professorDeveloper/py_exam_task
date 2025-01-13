@@ -53,6 +53,7 @@ class AdminService:
 
     ## Number methods
     def numberList(self):
+        self.numbers = readList(numbers_file)
         if len(self.numbers) != 0:
             for number in self.numbers:
                 if number.isSold:
@@ -239,6 +240,7 @@ class AdminService:
 
     ## User methods
     def userList(self):
+        self.users = readList(user_file)
         if len(self.users) != 0:
             for user in self.users:
                 print(f"Username: {user.username} | Password: {user.password} | Address: {user.address}")

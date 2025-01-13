@@ -1,8 +1,7 @@
 [
     {
-        "username": "123",
-        "password": "123",
-        "address": "123",
-        "numbers": []
+        "username": "johndoe",
+        "password": "johndoe",
+        "address": "California"
     }
 ]

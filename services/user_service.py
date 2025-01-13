@@ -37,6 +37,7 @@ class UserService:
             if user.username == username and user.password == password:
                 return user
         return None
+
     # Edit profile
     def editProfile(self, user: User):
         username = input("Username: ")
@@ -48,11 +49,14 @@ class UserService:
             user.address = address
             index = self.users.index(user)
             self.users[index] = user
+            writeList(self.users, user_file)
+            print("Foydalanuvchi tahrirlandi !")
         else:
             print("Foydalanuvchi username mavjud !")
 
     # Number CRUD Methods  Get Numbers
     def numberList(self):
+        self.numbers = readList(numbers_file)
         if len(self.numbers) != 0:
             for number in self.numbers:
                 print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
@@ -68,38 +72,40 @@ class UserService:
     def myNumber(self, user: User):
         if len(self.numbers) != 0:
             for number in self.numbers:
-              if number.isSold:
-                  if number.owner.username == user.username:
-                      print(
-                          f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
+                if number.isSold:
+                    if number.owner.username == user.username:
+                        print(
+                            f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
         else:
             print("Sizda raqamlar mavjud emas")
 
-
     def buyNumber(self, user: User):
         for number in self.numbers:
-            if number.owner.username != user.username and not number.isSold:
-                print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price}")
-        choice = input("avtomobil raqamini tanlang: ")
-        if choice.isdigit():
-            if self.checkNumberId(int(choice)):
-                sure = input("Raqamni sotib olishni xohlaysizmi ? (y/n): ")
-                if sure == "y":
-                    carNumber = self.getNumberById(int(choice))
-                    carIndex =self.numbers.index(carNumber)
-                    carNumber.isSold = True
-                    carNumber.owner = user
-                    self.numbers[carIndex] = carNumber
-                    writeList(self.numbers, numbers_file)
-                    print("Raqam sotib olindi !")
+            if not number.isSold:
+                print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
+        if len(self.numbers) != 0:
+            choice = input("ID orqali tanlang: ")
+            if choice.isdigit():
+                if self.checkNumberId(int(choice)):
+                    sure = input("Raqamni sotib olishni xohlaysizmi ? (y/n): ")
+                    if sure == "y":
+                        carNumber = self.getNumberById(int(choice))
+                        carIndex = self.numbers.index(carNumber)
+                        carNumber.isSold = True
+                        carNumber.owner = user
+                        self.numbers[carIndex] = carNumber
+                        writeList(self.numbers, numbers_file)
+                        print("Raqam sotib olindi !")
+                    else:
+                        print("Raqam sotish bekor qilindi")
                 else:
-                    print("Raqam sotish bekor qilindi")
+                    print("Raqam mavjud emas")
+
+
             else:
-                print("Raqam mavjud emas")
-
-
+                print("Raqam id ni xato formatda !")
         else:
-            print("Raqam id ni xato formatda !")
+            print("Raqamlar ro'yxati bo'sh")
 
     def searchNumber(self, user: User):
         number = input("Raqamni kiriting: ")
@@ -119,6 +125,7 @@ class UserService:
     def userPanel(self, user: User):
         print("Foydalanuvchi paneliga xush kelibsiz")
         while True:
+            print("------------------------------------------------------------------")
             print("1.Profil")
             print("2.Raqamlar ro`yhati")
             print("3.Mening raqamlarim")
@@ -126,6 +133,7 @@ class UserService:
             print("5.Profil tahrirlash")
             print("6.Raqamni qidirish")
             print("7.Chiqish")
+            print("------------------------------------------------------------------")
             choice = input("Tanlash: ")
             if choice == "1":
                 print(f"Username: {user.username} | Password: {user.password} | Address: {user.address}")

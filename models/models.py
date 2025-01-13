@@ -4,7 +4,7 @@ class User:
         self.username = username
         self.password = password
         self.address = address
-        self.__numbers = []
+
 
     @property
     def numbers(self):
@@ -19,13 +19,11 @@ class User:
             "username": self.username,
             "password": self.password,
             "address": self.address,
-            "numbers": [n.to_dict() for n in self.__numbers]
         }
 
     @staticmethod
     def from_dict(data):
         user = User(data['username'], data['password'], data['address'])
-        user.numbers = [Number.from_dict(num) for num in data.get('numbers', [])]
         return user
 
 # in number.py

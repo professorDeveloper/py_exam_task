@@ -5,13 +5,17 @@ userService = UserService()
 adminService = AdminService()
 
 while True:
+    print("===================================================")
     print("1. Foydalanuvchi paneli")
     print("2. Admin paneli")
+    print("===================================================")
     choice = input("Tanlang: ")
     if choice == "1":
+        print("===================================================")
         print("Foydalanuvchi paneliga xush kelibsiz")
         print("1. Ro`yhatdan o`tish")
         print("2. Kirish")
+        print("===================================================")
         choice = input("Tanlash: ")
         if choice == "1":
             userService.userRegister()
