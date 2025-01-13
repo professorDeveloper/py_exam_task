@@ -1,16 +1,25 @@
-from file_utils import  writeList,readList,readListUser,deleteById,deleteByIdUser,updateById,updateByIdUser,updateUserNumbers,changeNumberOwner
-from share_data import user_file,numbers_file
-from models import User,Number
+from exam_with_file.user_service import UserService
+from exam_with_file.admin_service import AdminService
 
-user = User(
-    username="user1",
-    password="1234",
-    address="Tashkent"
-)
+userService = UserService()
+adminService = AdminService()
 
-user.numbers = [Number(id=1, number="1234", owner=user), Number(id=2, number="2345", owner=user)]
-
-user_list =[user]
-
-writeList(user_list, user_file)
-print(readListUser(user_file)[0].username)
+while True:
+    print("1. Foydalanuvchi paneli")
+    print("2. Admin paneli")
+    choice = input("Tanlang: ")
+    if choice == "1":
+        print("Foydalanuvchi paneliga xush kelibsiz")
+        print("1. Ro`yhatdan o`tish")
+        print("2. Kirish")
+        choice = input("Tanlash: ")
+        if choice == "1":
+            userService.userRegister()
+        elif choice == "2":
+            userService.userLogin()
+        else:
+            print("Xato tanlov")
+    elif choice == "2":
+        adminService.loginAdmin()
+    else:
+        print("Xato tanlov")

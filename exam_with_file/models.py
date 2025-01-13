@@ -25,7 +25,6 @@ class User:
     @staticmethod
     def from_dict(data):
         user = User(data['username'], data['password'], data['address'])
-        from exam.number import Number  # Import inside method to avoid circular imports
         user.numbers = [Number.from_dict(num) for num in data.get('numbers', [])]
         return user
 
@@ -51,3 +50,17 @@ class Number:
     def from_dict(data):
         owner = User.from_dict(data['owner']) if data.get('owner') else None
         return Number(id=data['id'], number=data['number'], isSold=data['isSold'], price=data['price'], owner=owner)
+
+
+class Admin:
+    def __init__(self, pinCode):
+        self.pinCode=pinCode
+
+    def to_dict(self):
+        return {
+            "pinCode": self.pinCode
+        }
+
+    @staticmethod
+    def from_dict(data):
+        return Admin(pinCode=data['pinCode'])
