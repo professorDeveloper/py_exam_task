@@ -6,11 +6,16 @@ class Number:
         self.isSold=isSold
         self.price=price
         self.owner=owner
-    def toDict(self):
+
+    def to_dict(self):
         return {
-            "id":self.id,
-            "number":self.number,
-            "isSold":self.isSold,
-            "price":self.price,
-            "owner":self.owner
+            "id": self.id,
+            "number": self.number,
+            "price": self.price,
+            "isSold": self.isSold
         }
+
+    @staticmethod
+    def from_dict(data):
+        return Number(id=data['id'], number=data['number'], price=data['price'], isSold=data['isSold'])
+

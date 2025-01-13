@@ -7,7 +7,7 @@ from exam.share_data import admin
 from exam.share_data import numbers_list
 
 
-class AdminService():
+class AdminService:
 
     def userList(self):
         if len(user_list) != 0:
@@ -78,13 +78,17 @@ class AdminService():
         delId = input("Raqam id ni kiriting: ")
         if delId.isdigit():
             if self.checkIdIsHave(int(delId)):
-                sure = input("Raqamni o'chirmoqchimisiz ? (ha/yo'q): ")
-                if sure == "ha":
-                    carNumber = self.getNumberById(int(delId))
-                    numbers_list.remove(carNumber)
-                    print("Raqam o'chirildi")
-                else:
-                    print("Raqam o'chirish bekor qilindi")
+               carNumber = self.getNumberById(int(delId))
+               if carNumber.isSold:
+                   print("Sotilgan raqamlarda o'chirish mumkun emas !")
+               else:
+                   sure = input("Raqamni o'chirmoqchimisiz ? (ha/yo'q): ")
+                   if sure == "ha":
+                       carNumber = self.getNumberById(int(delId))
+                       numbers_list.remove(carNumber)
+                       print("Raqam o'chirildi")
+                   else:
+                       print("Raqam o'chirish bekor qilindi")
             else:
                 print("Raqam mavjud emas")
         else:
@@ -107,7 +111,7 @@ class AdminService():
                 if self.checkNumberIsHave(carNumberEdit):
                     print("Bu raqam allaqachon mavjud")
                 else:
-                    priceEdit = input("Narxni o'zgartiring(xozirgi - {carNumber.price}): ")
+                    priceEdit = input(f"Narxni o'zgartiring(xozirgi - {carNumber.price}): ")
                     if priceEdit.isdigit():
                         if int(priceEdit) < 0:
                             print("Narx 0 dan katta bo'lishi kerak")
@@ -130,24 +134,28 @@ class AdminService():
                 if sure == "ha":
                     while True:
                         carNumber = self.getNumberById(int(editId))
-                        carNumberEdit = input(f"Raqamni o'zgartiring(xozirgi - {carNumber.number}): ")
-                        if self.checkNumberFormat(carNumberEdit):
-                            if self.checkNumberIsHave(carNumberEdit):
-                                print("Bu raqam allaqachon mavjud")
-                            else:
-                                priceEdit = input("Narxni o'zgartiring(xozirgi - {carNumber.price}): ")
-                                if priceEdit.isdigit():
-                                    if int(priceEdit) < 0:
-                                        print("Narx 0 dan katta bo'lishi kerak")
-                                        continue
-                                    carNumber.price = priceEdit
-                                    carNumber.number = carNumberEdit
-                                    print("Raqam malumotlari o'zgartirildi")
-                                    break
-                                else:
-                                    print("Narx xato formatda !")
+                        if carNumber.isSold:
+                            print("Sotilgan raqamlarda o'zgartirish mumkun emas")
+                            break
                         else:
-                            print("Raqam xato formatda !")
+                            carNumberEdit = input(f"Raqamni o'zgartiring(xozirgi - {carNumber.number}): ")
+                            if self.checkNumberFormat(carNumberEdit):
+                                if self.checkNumberIsHave(carNumberEdit):
+                                    print("Bu raqam allaqachon mavjud")
+                                else:
+                                    priceEdit = input("Narxni o'zgartiring(xozirgi - {carNumber.price}): ")
+                                    if priceEdit.isdigit():
+                                        if int(priceEdit) < 0:
+                                            print("Narx 0 dan katta bo'lishi kerak")
+                                            continue
+                                        carNumber.price = priceEdit
+                                        carNumber.number = carNumberEdit
+                                        print("Raqam malumotlari o'zgartirildi")
+                                        break
+                                    else:
+                                        print("Narx xato formatda !")
+                            else:
+                                print("Raqam xato formatda !")
 
                 else:
                     print("Raqam o'zgartirish bekor qilindi")
@@ -182,8 +190,12 @@ class AdminService():
             if len(foundList) != 0:
                 while True:
                     for number in foundList:
-                        print(
-                            f"Raqam: {number.number} | Narx: {number.price} | Raqam egasi : {user_list[number.owner].username}")
+                        if number.isSold:
+                            print(
+                                f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold} | Raqam egasi : {user_list[number.owner].username}")
+                        else:
+                            print(
+                                f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
                     print("1-> Raqamni o`chirish")
                     print("2-> Raqamni o`zgartirish")
                     print("3-> Chiqish")
@@ -192,7 +204,11 @@ class AdminService():
                         carNumId = input("Raqam id ni kiriting: ")
                         if carNumId.isdigit():
                             if self.checkIdIsHave(int(carNumId)):
-                                self.delNumberByNumber(self.getNumberById(int(carNumId)))
+                                carNumber = self.getNumberById(int(carNumId))
+                                if carNumber.isSold:
+                                    print("Sotilgan raqamlarda o'chirish mumkun emas")
+                                else:
+                                    self.delNumberByNumber(self.getNumberById(int(carNumId)))
                             else:
                                 print("Raqam mavjud emas")
                         else:
@@ -202,7 +218,11 @@ class AdminService():
                         carNumId = input("Raqam id ni kiriting: ")
                         if carNumId.isdigit():
                             if self.checkIdIsHave(int(carNumId)):
-                                self.editNumberByNumber(self.getNumberById(int(carNumId)))
+                                carNumber = self.getNumberById(int(carNumId))
+                                if not carNumber.isSold:
+                                    self.editNumberByNumber(self.getNumberById(int(carNumId)))
+                                else:
+                                    print("Sotilgan raqamlarda o'zgartirish mumkun emas")
                             else:
                                 print("Raqam mavjud emas")
                         else:
