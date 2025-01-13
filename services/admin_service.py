@@ -1,7 +1,7 @@
-from exam_with_file.share_data.share_data import user_file, numbers_file
-from exam_with_file.utils.file_utils import readListUser, readList, writeList
-from exam_with_file.models.models import Number
-from exam_with_file.share_data.share_data import admin
+from share_data.share_data import user_file, numbers_file
+from utils.file_utils import readListUser, readList, writeList
+from models.models import Number
+from share_data.share_data import admin
 
 
 class AdminService:

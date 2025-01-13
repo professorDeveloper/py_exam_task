@@ -1,6 +1,6 @@
 import json
 import os
-from exam_with_file.models.models import Number, User
+from models.models import Number, User
 
 
 def writeList(numbers: list, file_path: str):

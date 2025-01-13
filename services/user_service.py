@@ -1,6 +1,6 @@
-from exam_with_file.models.models import User
-from exam_with_file.utils.file_utils import writeList, readListUser, readList
-from exam_with_file.share_data.share_data import user_file, numbers_file
+from models.models import User
+from utils.file_utils import writeList, readListUser, readList
+from share_data.share_data import user_file, numbers_file
 
 
 class UserService:
