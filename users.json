@@ -3,11 +3,15 @@
         "username": "test",
         "password": "test",
         "address": "test"
-
     },
     {
         "username": "user",
         "password": "user",
         "address": "user"
+    },
+    {
+        "username": "kwargs",
+        "password": "kwargs",
+        "address": "kaliforniya"
     }
 ]

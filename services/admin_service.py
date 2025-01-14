@@ -85,16 +85,6 @@ class AdminService:
             else:
                 print("Raqam xato formatda !")
 
-    def delNumberByNumber(self, number: Number):
-        sure = input("Raqamni o'chirmoqchimisiz ? (y/n): ")
-        if sure == "y":
-            carNumber = number
-            self.numbers.remove(carNumber)
-            writeList(self.numbers, numbers_file)
-            print("Raqam o'chirildi")
-        else:
-            print("Raqam o'chirish bekor qilindi")
-
     def delNumber(self):
         self.numberList()
         delId = input("Raqam id ni kiriting: ")
@@ -147,29 +137,6 @@ class AdminService:
         else:
             print("Raqam id ni xato formatda !")
 
-    def editNumberByNumber(self, number: Number):
-        while True:
-            carNumber = number
-            carNumberEdit = input(f"Raqamni o'zgartiring(xozirgi - {carNumber.number}): ")
-            if self.checkNumberFormat(carNumberEdit):
-                if self.checkNumber(carNumberEdit):
-                    print("Bu raqam allaqachon mavjud")
-                else:
-                    priceEdit = input(f"Narxni o'zgartiring(xozirgi - {carNumber.price}): ")
-                    if priceEdit.isdigit():
-                        if int(priceEdit) < 0:
-                            print("Narx 0 dan katta bo'lishi kerak")
-                            continue
-                        carNumber.price = priceEdit
-                        carNumber.number = carNumberEdit
-                        writeList(self.numbers, numbers_file)
-                        print("Raqam malumotlari o'zgartirildi")
-                        break
-                    else:
-                        print("Narx xato formatda !")
-            else:
-                print("Raqam xato formatda !")
-
     def soldNumberList(self):
         if len(self.numbers) != 0:
             filteredSoldNumbers = []
@@ -189,50 +156,13 @@ class AdminService:
             number = str(input("Raqamni kiriting: "))
             foundList = self.findNumber(number)
             if len(foundList) != 0:
-                while True:
-                    for number in foundList:
-                        if number.isSold:
-                            print(
-                                f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold} | Raqam egasi : {self.users[number.owner].username}")
-                        else:
-                            print(
-                                f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
-                    print("1-> Raqamni o`chirish")
-                    print("2-> Raqamni o`zgartirish")
-                    print("3-> Chiqish")
-                    choice = input("Tanlash: ")
-                    if choice == "1":
-                        carNumId = input("Raqam id ni kiriting: ")
-                        if carNumId.isdigit():
-                            if self.checkNumberId(int(carNumId)):
-                                carNumber = self.getNumberById(int(carNumId))
-                                if carNumber.isSold:
-                                    print("Sotilgan raqamlarda o'chirish mumkun emas")
-                                else:
-                                    self.delNumberByNumber(self.getNumberById(int(carNumId)))
-                            else:
-                                print("Raqam mavjud emas")
-                        else:
-                            print("Raqam id ni xato formatda !")
-
-                    elif choice == "2":
-                        carNumId = input("Raqam id ni kiriting: ")
-                        if carNumId.isdigit():
-                            if self.checkNumberId(int(carNumId)):
-                                carNumber = self.getNumberById(int(carNumId))
-                                if not carNumber.isSold:
-                                    self.editNumberByNumber(self.getNumberById(int(carNumId)))
-                                else:
-                                    print("Sotilgan raqamlarda o'zgartirish mumkun emas")
-                            else:
-                                print("Raqam mavjud emas")
-                        else:
-                            print("Raqam id ni xato formatda !")
-
-                    elif choice == "3":
-                        break
+                for number in foundList:
+                    if number.isSold:
+                        print(
+                            f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold} | Raqam egasi : {self.users[number.owner].username}")
                     else:
-                        print("Xato tanlov")
+                        print(
+                            f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
             else:
                 print("Raqam mavjud emas")
         else:

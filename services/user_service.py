@@ -11,12 +11,20 @@ class UserService:
     ## Checker Medhods
 
     def checkNumberId(self, id: int):
+        self.numbers = readList(numbers_file)
         for number in self.numbers:
-            if number.id == id:
+            if number.id == id :
                 return True
-            else:
-                return False
+
         return False
+    def checkNotSoldNumberId(self, id: int):
+        self.numbers = readList(numbers_file)
+        for number in self.numbers:
+            if number.id == id and not number.isSold:
+                return True
+
+        return False
+
 
     def checkUserName(self, username):
         for user in self.users:
@@ -86,7 +94,7 @@ class UserService:
         if len(self.numbers) != 0:
             choice = input("ID orqali tanlang: ")
             if choice.isdigit():
-                if self.checkNumberId(int(choice)):
+                if self.checkNotSoldNumberId(int(choice)):
                     sure = input("Raqamni sotib olishni xohlaysizmi ? (y/n): ")
                     if sure == "y":
                         carNumber = self.getNumberById(int(choice))

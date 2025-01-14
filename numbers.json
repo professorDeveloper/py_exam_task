@@ -21,7 +21,11 @@
         "id": 3,
         "number": "40A123AA",
         "price": 5999,
-        "isSold": false,
-        "owner": null
+        "isSold": true,
+        "owner": {
+            "username": "kwargs",
+            "password": "kwargs",
+            "address": "kaliforniya"
+        }
     }
 ]
