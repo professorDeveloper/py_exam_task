@@ -5,7 +5,6 @@ class User:
         self.password = password
         self.address = address
 
-
     @property
     def numbers(self):
         return self.__numbers
@@ -26,6 +25,7 @@ class User:
         user = User(data['username'], data['password'], data['address'])
         return user
 
+
 # in number.py
 class Number:
     def __init__(self, id, number, isSold=False, price=0, owner=None):
@@ -41,7 +41,7 @@ class Number:
             "number": self.number,
             "price": self.price,
             "isSold": self.isSold,
-            "owner": self.owner.username if self.owner else None
+            "owner": self.owner.to_dict() if self.owner else None  # Convert owner to dict
         }
 
     @staticmethod
@@ -49,10 +49,10 @@ class Number:
         owner = User.from_dict(data['owner']) if data.get('owner') else None
         return Number(id=data['id'], number=data['number'], isSold=data['isSold'], price=data['price'], owner=owner)
 
-
+# in admin.py
 class Admin:
     def __init__(self, pinCode):
-        self.pinCode=pinCode
+        self.pinCode = pinCode
 
     def to_dict(self):
         return {

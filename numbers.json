@@ -1,3 +1,27 @@
 [
-
+    {
+        "id": 1,
+        "number": "50R174QA",
+        "price": 1209999,
+        "isSold": true,
+        "owner": {
+            "username": "test",
+            "password": "test",
+            "address": "test"
+        }
+    },
+    {
+        "id": 2,
+        "number": "10A111AA",
+        "price": 1000,
+        "isSold": false,
+        "owner": null
+    },
+    {
+        "id": 3,
+        "number": "40A123AA",
+        "price": 5999,
+        "isSold": false,
+        "owner": null
+    }
 ]
