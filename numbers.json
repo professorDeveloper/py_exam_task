@@ -1,2 +1,10 @@
 [
-    ]
+    {
+        "id": 1,
+        "number": "50R174QA",
+        "price": 21999,
+        "isSold": true,
+        "owner": "user",
+        "date": "2025-01-15 02:39:06"
+    }
+]

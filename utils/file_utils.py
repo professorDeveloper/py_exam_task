@@ -100,3 +100,9 @@ def changeNumberOwner(file_path: str, number_id: int, new_owner_username: str,us
             return f"Changed owner of number ID {number_id} to {new_owner_username}."
     if not found:
         return f"Number ID {number_id} not found."
+def writeListUser(users: list, file_path: str):
+    data = []
+    for user in users:
+        data.append(user.to_dict())
+    with open(file_path, "w") as file:
+        json.dump(data, file, indent=4)

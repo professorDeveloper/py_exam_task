@@ -1,10 +1,10 @@
 from share_data.share_data import user_file, numbers_file
 from utils.file_utils import readListUser, readList, writeList
-from models.models import Number
+from models.models import Number, User
 
 
 class AdminService:
-    def __init__(self,admin):
+    def __init__(self, admin):
         self.users = readListUser(user_file)
         self.numbers = readList(numbers_file)
         self.admin = admin
@@ -14,28 +14,20 @@ class AdminService:
         for number in self.numbers:
             if number.id == id:
                 return True
-            else:
-                return False
         return False
 
-    def checkNumber(self, id: str):
-        for number in self.numbers:
-            if number.number == id:
+    def checkNumber(self, number: str):
+        for num in self.numbers:
+            if num.number == number:
                 return True
-            else:
-                return False
         return False
 
     def checkNumberFormat(self, number: str):  ## 50 R174QA
         if len(number) == 8:
-            if (number[0].isdigit() and number[1].isdigit() and number[2].isalpha() and number[3].isdigit() and number[
-                4].isdigit() and number[5].isdigit()
-                    and number[6].isalpha() and number[7].isalpha()):
+            if (number[0].isdigit() and number[1].isdigit() and number[2].isalpha() and number[3].isdigit() and
+                    number[4].isdigit() and number[5].isdigit() and number[6].isalpha() and number[7].isalpha()):
                 return True
-            else:
-                return False
-        else:
-            return False
+        return False
 
     # Getter Methods
     def getNumberById(self, id: int) -> Number:
@@ -53,11 +45,9 @@ class AdminService:
     ## Number methods
     def showNumber(self, number: Number):
         if number.isSold:
-            print(
-                f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold} | Raqam egasi : {self.users[number.owner].username}")
+            print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold} | Raqam egasi: {number.owner.username}")
         else:
-            print(
-                f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
+            print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
 
     def numberList(self):
         self.numbers = readList(numbers_file)
@@ -98,7 +88,6 @@ class AdminService:
                 else:
                     sure = input("Raqamni o'chirmoqchimisiz ? (y/n): ")
                     if sure == "y":
-                        carNumber = self.getNumberById(int(delId))
                         self.numbers.remove(carNumber)
                         writeList(self.numbers, numbers_file)
                         print("Raqam o'chirildi")
@@ -141,13 +130,10 @@ class AdminService:
 
     def soldNumberList(self):
         if len(self.numbers) != 0:
-            filteredSoldNumbers = []
-            for number in self.numbers:
-                if number.isSold:
-                    filteredSoldNumbers.append(number)
+            filteredSoldNumbers = [number for number in self.numbers if number.isSold]
             if len(filteredSoldNumbers) != 0:
                 for number in filteredSoldNumbers:
-                    print(f"Raqam: {number.number} | Narx: {number.price} | Raqam egasi : {number.owner.username}")
+                    print(f"Raqam: {number.number} | Narx: {number.price} | Raqam egasi: {number.owner.username}")
             else:
                 print("Sotilgan raqamlar ro'yxati bo'sh")
         else:
@@ -160,7 +146,6 @@ class AdminService:
             if len(foundList) != 0:
                 for number in foundList:
                     self.showNumber(number)
-
             else:
                 print("Raqam mavjud emas")
         else:
@@ -172,19 +157,21 @@ class AdminService:
         if len(self.users) != 0:
             for user in self.users:
                 print(f"Username: {user.username} | Password: {user.password} | Address: {user.address}")
+                if len(user.my_numbers) != 0:
+                    print(f"  Sotib olingan raqamlar:")
+                    for number in user.my_numbers:
+                        print(f"    Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
+                else:
+                    print("  Foydalanuvchi hech qanday raqam sotib olmagan.")
         else:
             print("Foydalanuvchilar ro'yxati bo'sh")
 
     def mostSoldUser(self):
         if len(self.numbers) != 0:
-            filteredSoldNumbers = []
-            for number in self.numbers:
-                if number.isSold:
-                    filteredSoldNumbers.append(number)
+            filteredSoldNumbers = [number for number in self.numbers if number.isSold]
             if len(filteredSoldNumbers) != 0:
                 mostSoldUser = max(filteredSoldNumbers, key=lambda x: x.owner)
-                print(
-                    f"Eng ko'p raqam sotib olgan foydalanuvchi: {self.users[mostSoldUser.owner].username} | Raqamlar soni: {len(filteredSoldNumbers)}")
+                print(f"Eng ko'p raqam sotib olgan foydalanuvchi: {mostSoldUser.owner.username} | Raqamlar soni: {len(filteredSoldNumbers)}")
             else:
                 print("Sotilgan raqamlar ro'yxati bo'sh")
         else:
@@ -202,9 +189,7 @@ class AdminService:
             print("Login yoki parol xato !")
 
     ## Admin Panel
-
     def adminPanel(self):
-        print("Admin paneliga xush kelibsiz")
         while True:
             print("1. Foydalanuvchilar ro'yxatini ko'rish")
             print("2. Avto raqamlarini ro`yhati")

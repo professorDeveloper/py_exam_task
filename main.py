@@ -3,7 +3,7 @@ from services.admin_service import AdminService
 from models.models import Admin
 
 userService = UserService()
-admin = Admin(pinCode="1234")
+admin = Admin(pinCode=1234)
 adminService = AdminService(admin=admin)
 
 while True:
