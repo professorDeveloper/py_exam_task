@@ -157,12 +157,6 @@ class AdminService:
         if len(self.users) != 0:
             for user in self.users:
                 print(f"Username: {user.username} | Password: {user.password} | Address: {user.address}")
-                if len(user.my_numbers) != 0:
-                    print(f"  Sotib olingan raqamlar:")
-                    for number in user.my_numbers:
-                        print(f"    Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
-                else:
-                    print("  Foydalanuvchi hech qanday raqam sotib olmagan.")
         else:
             print("Foydalanuvchilar ro'yxati bo'sh")
 
