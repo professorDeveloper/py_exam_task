@@ -4,7 +4,9 @@ from models.models import Number, User
 
 
 def writeList(numbers: list, file_path: str):
-    data = [num.to_dict() for num in numbers]
+    data =[]
+    for number in numbers:
+        data.append(number.to_dict())
     with open(file_path, "w") as file:
         json.dump(data, file, indent=4)
 
@@ -14,7 +16,10 @@ def readList(file_path: str) -> list:
         return []
     with open(file_path, "r") as file:
         data = json.load(file)
-    return [Number.from_dict(item) for item in data]
+        returnList =[]
+        for item in data:
+            returnList.append(Number.from_dict(item))
+        return returnList
 
 def deleteById(file_path: str, id: int) -> str:
     numbers = readList(file_path)

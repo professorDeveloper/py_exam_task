@@ -1,24 +1,10 @@
 from services.user_service import UserService
 from services.admin_service import AdminService
+from models.models import Admin
 
 userService = UserService()
-adminService = AdminService()
-
-def minRaqam(numbers):
-    smallest = numbers[0]
-    for number in numbers:
-        if number < smallest:
-            smallest = number
-    return smallest
-
-
-numbers = [5, 3, 8, 1, 4]
-smallest = minRaqam(numbers)
-print(f"Eng kichik raqam: {smallest}")
-
-
-
-
+admin = Admin(pinCode="1234")
+adminService = AdminService(admin=admin)
 
 while True:
     print("===================================================")
@@ -43,7 +29,3 @@ while True:
         adminService.loginAdmin()
     else:
         print("Xato tanlov")
-
-
-
-

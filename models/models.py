@@ -5,13 +5,7 @@ class User:
         self.password = password
         self.address = address
 
-    @property
-    def numbers(self):
-        return self.__numbers
-
-    @numbers.setter
-    def numbers(self, numbers):
-        self.__numbers = numbers  # Allow setting a list of Number instances directly
+ # Allow setting a list of Number instances directly
 
     def to_dict(self):
         return {
@@ -44,6 +38,7 @@ class Number:
             "owner": self.owner.to_dict() if self.owner else None  # Convert owner to dict
         }
 
+
     @staticmethod
     def from_dict(data):
         owner = User.from_dict(data['owner']) if data.get('owner') else None
@@ -54,11 +49,4 @@ class Admin:
     def __init__(self, pinCode):
         self.pinCode = pinCode
 
-    def to_dict(self):
-        return {
-            "pinCode": self.pinCode
-        }
 
-    @staticmethod
-    def from_dict(data):
-        return Admin(pinCode=data['pinCode'])

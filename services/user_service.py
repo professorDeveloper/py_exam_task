@@ -13,10 +13,11 @@ class UserService:
     def checkNumberId(self, id: int):
         self.numbers = readList(numbers_file)
         for number in self.numbers:
-            if number.id == id :
+            if number.id == id:
                 return True
 
         return False
+
     def checkNotSoldNumberId(self, id: int):
         self.numbers = readList(numbers_file)
         for number in self.numbers:
@@ -25,31 +26,30 @@ class UserService:
 
         return False
 
-
     def checkUserName(self, username):
         for user in self.users:
             if user.username == username:
                 return True
         return False
 
-    def checkUserIsHave(self, username, password):
-        for user in self.users:
-            if user.username == username and user.password == password:
+    def checkUserIsHave(self, username, password):  ## Foydalanuvchi mavjudligini tekshirish
+        for user in self.users:  ## Foydalanuvchilar ro'yxatini olish
+            if user.username == username and user.password == password:  ## Foydalanuvchini tekshirish
                 return True
         return False
 
     ## User Methods
 
-    def getUser(self, username, password):
+    def getUser(self, username, password):  ## Foydalanuvchini olish login va password orqali
         for user in self.users:
             if user.username == username and user.password == password:
                 return user
         return None
 
     # Edit profile
-    def editProfile(self, user: User):
+    def editProfile(self, user: User):  ## Profile ni tahrirlash
         username = input("Username: ")
-        if not self.checkUserName(username):
+        if not self.checkUserName(username):  ## Foydalanuvchi login mavjud emasligini tekshirish
             password = input("Password: ")
             address = input("Address: ")
             user.username = username
@@ -71,14 +71,16 @@ class UserService:
         else:
             print("Raqamlar ro'yxati bo'sh")
 
-    def getNumberById(self, id: int):
+    def getNumberById(self, id: int):  ## Raqamni id orqali olish
+
         for number in self.numbers:
             if number.id == id:
                 return number
         return None
 
-    def myNumber(self, user: User):
-        if len(self.numbers) != 0:
+    def myNumber(self, user: User):  ## Mening raqamlarim
+        self.numbers = readList(numbers_file)  ## raqamlar ro'yxatini olish
+        if len(self.numbers) != 0:  ## raqamlar mavjudligiga tekshirish
             for number in self.numbers:
                 if number.isSold:
                     if number.owner.username == user.username:
@@ -87,49 +89,55 @@ class UserService:
         else:
             print("Sizda raqamlar mavjud emas")
 
-    def buyNumber(self, user: User):
-        for number in self.numbers:
-            if not number.isSold:
-                print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
-        if len(self.numbers) != 0:
-            choice = input("ID orqali tanlang: ")
-            if choice.isdigit():
-                if self.checkNotSoldNumberId(int(choice)):
-                    sure = input("Raqamni sotib olishni xohlaysizmi ? (y/n): ")
-                    if sure == "y":
-                        carNumber = self.getNumberById(int(choice))
-                        carIndex = self.numbers.index(carNumber)
-                        carNumber.isSold = True
-                        carNumber.owner = user
-                        self.numbers[carIndex] = carNumber
-                        writeList(self.numbers, numbers_file)
-                        print("Raqam sotib olindi !")
+    def buyNumber(self, user: User):  ### User Raqam sotib olish qismi
+        if len(self.numbers) != 0:  ## raqamlar mavjudlikga tekshirish
+            soldNumbers = []  ## sotilmagan raqamlarni bitta qilib saqlash
+            for number in self.numbers:
+                if not number.isSold:
+                    soldNumbers.append(number)
+                    print(
+                        f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
+            if len(soldNumbers) != 0:  ## Sotilmagan raqamlar mavjudligiga tekshirish
+                choice = input("ID orqali tanlang: ")  ### sotilmagan raqam id
+                if choice.isdigit():
+                    if self.checkNotSoldNumberId(int(choice)):
+                        sure = input("Raqamni sotib olishni xohlaysizmi ? (y/n): ")  ##  To`lovni tasdiqlash !
+                        if sure == "y":
+                            carNumber = self.getNumberById(int(choice))
+                            carIndex = self.numbers.index(carNumber)
+                            carNumber.isSold = True
+                            carNumber.owner = user
+                            self.numbers[carIndex] = carNumber
+                            writeList(self.numbers,
+                                      numbers_file)  ## Raqamni malumotlar bazasidan yangilash yani egasi raqam sotib olganligini belgilash
+                            print("Raqam sotib olindi !")
+                        else:
+                            print("Raqam sotish bekor qilindi")  ## Raqam sotish bekor qilindi
                     else:
-                        print("Raqam sotish bekor qilindi")
+                        print("Raqam mavjud emas")
+
+
                 else:
-                    print("Raqam mavjud emas")
-
-
+                    print("Raqam id ni xato formatda !")
             else:
-                print("Raqam id ni xato formatda !")
+                print(" Sotilmagan Raqamlar ro'yxati bo'sh")
         else:
             print("Raqamlar ro'yxati bo'sh")
 
-    def searchNumber(self, user: User):
-        number = input("Raqamni kiriting: ")
-        if number.isdigit():
+    def searchNumber(self, user: User):  ## Raqamni qidirish
+        number = input("Raqamni kiriting: ")  # raqamni qidirish
+        if number.isdigit():  ## raqamni uzb formatga tekshirish
             if self.checkNumberId(int(number)):
                 for number in self.numbers:
-                    if number.number == number:
+                    if number.number == number:  ## raqamni raqamlar ro'yxatiga tekshirish
                         print(
                             f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
             else:
                 print("Raqam mavjud emas")
         else:
-            print("Raqam id ni xato formatda !")
+            print("Raqam id ni xato formatda  (50R174QA)!")
 
-    ## Main Page
-
+    ## UserPanel
     def userPanel(self, user: User):
         print("Foydalanuvchi paneliga xush kelibsiz")
         while True:

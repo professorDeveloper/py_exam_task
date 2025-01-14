@@ -1,11 +1,10 @@
 from share_data.share_data import user_file, numbers_file
 from utils.file_utils import readListUser, readList, writeList
 from models.models import Number
-from share_data.share_data import admin
 
 
 class AdminService:
-    def __init__(self):
+    def __init__(self,admin):
         self.users = readListUser(user_file)
         self.numbers = readList(numbers_file)
         self.admin = admin
@@ -52,22 +51,25 @@ class AdminService:
         return newList
 
     ## Number methods
+    def showNumber(self, number: Number):
+        if number.isSold:
+            print(
+                f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold} | Raqam egasi : {self.users[number.owner].username}")
+        else:
+            print(
+                f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
+
     def numberList(self):
         self.numbers = readList(numbers_file)
         if len(self.numbers) != 0:
             for number in self.numbers:
-                if number.isSold:
-                    print(
-                        f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold} | Raqam egasi : {number.owner.username}")
-                else:
-                    print(
-                        f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
+                self.showNumber(number)
         else:
             print("Avto raqamlar ro'yxati bo'sh")
 
     def requestAddNumber(self):
         while True:
-            print("Raqam faqat UZB formatida bo'lishi kerak")
+            print("Raqam faqat UZB formatida bo'lishi kerak (50R174QA)")
             number = str(input("Raqamni kiriting: "))
             if self.checkNumberFormat(number):
                 if self.checkNumber(number):
@@ -157,12 +159,8 @@ class AdminService:
             foundList = self.findNumber(number)
             if len(foundList) != 0:
                 for number in foundList:
-                    if number.isSold:
-                        print(
-                            f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold} | Raqam egasi : {self.users[number.owner].username}")
-                    else:
-                        print(
-                            f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
+                    self.showNumber(number)
+
             else:
                 print("Raqam mavjud emas")
         else:
@@ -198,7 +196,7 @@ class AdminService:
         if not password.isdigit():
             print("Login yoki parol xato !")
             return
-        if int(password) == admin.pinCode:
+        if int(password) == self.admin.pinCode:
             self.adminPanel()
         else:
             print("Login yoki parol xato !")
