@@ -22,7 +22,8 @@ class User:
         # Convert my_numbers from dict to Number objects
         user.my_numbers = [Number.from_dict(num) for num in data.get('my_numbers', [])]
         return user
-
+    def checkLogin(self,username,password):
+        return self.username == username and self.username.password == password
 
 # in number.py
 from datetime import datetime
@@ -30,12 +31,19 @@ from datetime import datetime
 # in number.py
 class Number:
     def __init__(self, id, number, isSold=False, price=0, owner=None, date=None):
-        self.id = id
+        self.__id = id
         self.number = number
         self.isSold = isSold
         self.price = price
         self.owner = owner
-        self.date = date if date else datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Default date if not provided
+        self.date = date if date else datetime.now().strftime('%Y-%m-%d')  # Agar ko'rsatilmagan bo'lsa, standart sana ## 2024-01-15
+
+    @property
+    def id(self):
+        return self.__id
+
+    def checkId(self,id):
+        return self.id == id
 
     def to_dict(self):
         return {
@@ -43,7 +51,7 @@ class Number:
             "number": self.number,
             "price": self.price,
             "isSold": self.isSold,
-            "owner": self.owner if self.owner else None,  # Include only the owner's username
+            "owner": self.owner if self.owner else None,  # Faqat egasining foydalanuvchi ismi
             "date": self.date,
         }
 

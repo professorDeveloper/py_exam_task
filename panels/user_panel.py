@@ -3,70 +3,81 @@ from utils.file_utils import writeList, readListUser, readList, updateUserNumber
 from share_data.share_data import user_file, numbers_file
 
 
-class UserService:
+class UserPanel:
     def __init__(self):
-        self.users = readListUser(user_file)
-        self.numbers = readList(numbers_file)
+        self.__users = readListUser(user_file)
+        self.__numbers = readList(numbers_file)
 
     ## Checker Methods
     def checkNumberId(self, id: int):
-        for number in self.numbers:
-            if number.id == id:
+        for number in self.__numbers:
+            if number.checkId(id):
                 return True
         return False
 
     def checkNotSoldNumberId(self, id: int):
-        for number in self.numbers:
-            if number.id == id and not number.isSold:
+        for number in self.__numbers:
+            if number.checkId(id) and not number.isSold:
                 return True
         return False
 
     def checkUserName(self, username):
-        for user in self.users:
+        for user in self.__users:
             if user.username == username:
                 return True
         return False
 
     def checkUserIsHave(self, username, password):
-        for user in self.users:
-            if user.username == username and user.password == password:
+        for user in self.__users:
+            if user.checkLogin(username,password):
                 return True
         return False
 
     ## User Methods
     def getUser(self, username, password):
-        for user in self.users:
-            if user.username == username and user.password == password:
+        for user in self.__users:
+            if user.checkLogin(username,password):
                 return user
         return None
 
     # Edit profile
+
+    def updateUserNumbers(self,username,newUserName):
+        for index in range(0, len(self.__numbers)):
+            if self.__numbers[index].username == username:
+                self.__numbers[index].username = newUserName
+
     def editProfile(self, user: User):
         username = input("Username: ")
         if not self.checkUserName(username):
             password = input("Password: ")
             address = input("Address: ")
+            oldUserName =user.username
+            newUserName = username
+            self.updateUserNumbers(oldUserName,newUserName)
             user.username = username
             user.password = password
             user.address = address
-            index = self.users.index(user)
-            self.users[index] = user
-            writeList(self.users, user_file)
+            index = self.__users.index(user)
+            self.__users[index] = user
+            writeList(self.__users, user_file)
             print("Foydalanuvchi tahrirlandi !")
         else:
             print("Foydalanuvchi username mavjud !")
 
     # Number CRUD Methods
     def numberList(self):
-        if len(self.numbers) != 0:
-            for number in self.numbers:
-                print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
+        if len(self.__numbers) != 0:
+            for number in self.__numbers:
+                if not number.isSold:
+                    print(
+                        f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
         else:
             print("Raqamlar ro'yxati bo'sh")
 
     def getNumberById(self, id: int):
-        for number in self.numbers:
-            if number.id == id:
+        for number in self.__numbers:
+            if number.checkId(id):
                 return number
         return None
 
@@ -78,9 +89,9 @@ class UserService:
             print("Sizda raqamlar mavjud emas")
 
     def buyNumber(self, user: User):
-        self.numbers =readList(numbers_file)
+        self.__numbers =readList(numbers_file)
         soldNumbers = []
-        for number in self.numbers:
+        for number in self.__numbers:
             if not number.isSold:
                 soldNumbers.append(number)
                 print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
@@ -91,13 +102,13 @@ class UserService:
                     sure = input("Raqamni sotib olishni xohlaysizmi ? (y/n): ")
                     if sure == "y":
                         carNumber = self.getNumberById(int(choice))
-                        carIndex = self.numbers.index(carNumber)
+                        carIndex = self.__numbers.index(carNumber)
                         carNumber.isSold = True
                         carNumber.owner = user.username
-                        self.numbers[carIndex] = carNumber
+                        self.__numbers[carIndex] = carNumber
                         user.my_numbers.append(carNumber)  # Add purchased number to my_numbers
-                        writeList(self.numbers, numbers_file)
-                        writeListUser(self.users, user_file)  # Save updated user data
+                        writeList(self.__numbers, numbers_file)
+                        writeListUser(self.__users, user_file)  # Save updated user data
                         print("Raqam sotib olindi !")
                     else:
                         print("Raqam sotish bekor qilindi")
@@ -112,7 +123,7 @@ class UserService:
         number = input("Raqamni kiriting: ")
         if number.isdigit():
             if self.checkNumberId(int(number)):
-                for number in self.numbers:
+                for number in self.__numbers:
                     if number.number == number:
                         print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
             else:
@@ -150,6 +161,8 @@ class UserService:
                     break
                 else:
                     print("Chiqish bekor qilindi")
+            else:
+                print("Xato tanlov !")
 
     def userLogin(self):
         login = input("Login: ")
@@ -165,8 +178,8 @@ class UserService:
             password = input("Password: ")
             address = input("Address: ")
             user = User(username, password, address)
-            self.users.append(user)
-            writeList(self.users, user_file)
+            self.__users.append(user)
+            writeList(self.__users, user_file)
             self.userPanel(user)
         else:
             print("Foydalanuvchi login mavjud !")

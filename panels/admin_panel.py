@@ -3,7 +3,7 @@ from utils.file_utils import readListUser, readList, writeList
 from models.models import Number, User
 
 
-class AdminService:
+class AdminPanel:
     def __init__(self, admin):
         self.users = readListUser(user_file)
         self.numbers = readList(numbers_file)
@@ -45,7 +45,8 @@ class AdminService:
     ## Number methods
     def showNumber(self, number: Number):
         if number.isSold:
-            print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold} | Raqam egasi: {number.owner.username}")
+            print(
+                f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold} | Raqam egasi: {number.owner.username}")
         else:
             print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
 
@@ -65,15 +66,19 @@ class AdminService:
                 if self.checkNumber(number):
                     print("Bu raqam allaqachon mavjud")
                 else:
-                    price = int(input("Narxini kiriting: "))
-                    if price < 0:
-                        print("Narx 0 dan katta bo'lishi kerak")
-                        continue
-                    newNumber = Number(id=len(self.numbers) + 1, number=number, price=price)
-                    self.numbers.append(newNumber)
-                    writeList(self.numbers, numbers_file)
-                    print("Raqam qo'shildi")
-                    break
+                    price = input("Narxini kiriting: ")
+                    if price.isdigit():
+                        price =int(price)
+                        if price < 0:
+                            print("Narx 0 dan katta bo'lishi kerak")
+                            continue
+                        newNumber = Number(id=len(self.numbers) + 1, number=number, price=price)
+                        self.numbers.append(newNumber)
+                        writeList(self.numbers, numbers_file)
+                        print("Raqam qo'shildi")
+                        break
+                    else:
+                        print("Narx raqam bo`lishi kerak")
             else:
                 print("Raqam xato formatda !")
 
@@ -130,7 +135,10 @@ class AdminService:
 
     def soldNumberList(self):
         if len(self.numbers) != 0:
-            filteredSoldNumbers = [number for number in self.numbers if number.isSold]
+            filteredSoldNumbers = []
+            for number in self.numbers:
+                if number.isSold:
+                    filteredSoldNumbers.append(number)
             if len(filteredSoldNumbers) != 0:
                 for number in filteredSoldNumbers:
                     print(f"Raqam: {number.number} | Narx: {number.price} | Raqam egasi: {number.owner.username}")
@@ -165,7 +173,8 @@ class AdminService:
             filteredSoldNumbers = [number for number in self.numbers if number.isSold]
             if len(filteredSoldNumbers) != 0:
                 mostSoldUser = max(filteredSoldNumbers, key=lambda x: x.owner)
-                print(f"Eng ko'p raqam sotib olgan foydalanuvchi: {mostSoldUser.owner.username} | Raqamlar soni: {len(filteredSoldNumbers)}")
+                print(
+                    f"Eng ko'p raqam sotib olgan foydalanuvchi: {mostSoldUser.owner.username} | Raqamlar soni: {len(filteredSoldNumbers)}")
             else:
                 print("Sotilgan raqamlar ro'yxati bo'sh")
         else:
@@ -190,7 +199,7 @@ class AdminService:
             print("3. Avto raqamlarini qo'shish")
             print("4. Avto raqamlarini o'chirish")
             print("5. Avto raqamlarini tahrirlash")
-            print("6. Sotilgan raqamlar ro`yhati")
+            print("6. Sotilgan raqamlar ro`yhati ")
             print("7. Avto Raqamni qidirish.")
             print("8. Eng ko`p raqam sotib olgan foydalanuvchi")
             print("9. Chiqish")
