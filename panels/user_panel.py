@@ -1,6 +1,9 @@
 from models.models import User
-from utils.file_utils import writeList, readListUser, readList, updateUserNumbers, writeListUser
-from share_data.share_data import user_file, numbers_file
+from utils.file_utils import writeList, readListUser, readList,  writeListUser
+
+
+user_file = "users.json"
+numbers_file = "numbers.json"
 
 
 class UserPanel:
@@ -119,7 +122,7 @@ class UserPanel:
         else:
             print("Sotilmagan Raqamlar ro'yxati bo'sh")
 
-    def searchNumber(self, user: User):
+    def searchNumber(self):
         number = input("Raqamni kiriting: ")
         if number.isdigit():
             if self.checkNumberId(int(number)):

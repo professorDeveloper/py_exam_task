@@ -23,7 +23,7 @@ class User:
         user.my_numbers = [Number.from_dict(num) for num in data.get('my_numbers', [])]
         return user
     def checkLogin(self,username,password):
-        return self.username == username and self.username.password == password
+        return self.username == username and self.password == password
 
 # in number.py
 from datetime import datetime
