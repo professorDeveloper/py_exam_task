@@ -11,6 +11,38 @@ class AdminPanel:
         self.__numbers = readList(numbers_file)
         self.__admin = admin
 
+    ## Admin Panel
+    def run(self):
+        while True:
+            print("1. Foydalanuvchilar ro'yxatini ko'rish")
+            print("2. Avto raqamlarini ro`yhati")
+            print("3. Avto raqamlarini qo'shish")
+            print("4. Avto raqamlarini o'chirish")
+            print("5. Avto raqamlarini tahrirlash")
+            print("6. Sotilgan raqamlar ro`yhati ")
+            print("7. Avto Raqamni qidirish.")
+            print("8. Eng ko`p raqam sotib olgan foydalanuvchi")
+            print("9. Chiqish")
+            choice = input("Tanlash: ")
+            if choice == "1":
+                self.userList()
+            elif choice == "2":
+                self.numberList()
+            elif choice == "3":
+                self.requestAddNumber()
+            elif choice == "4":
+                self.delNumber()
+            elif choice == "5":
+                self.editNumber()
+            elif choice == "6":
+                self.soldNumberList()
+            elif choice == "7":
+                self.searchNumber()
+            elif choice == "8":
+                self.mostSoldUser()
+            elif choice == "9":
+                break
+
     # Checker methods
     def checkNumberId(self, id: int):
         for number in self.__numbers:
@@ -201,34 +233,4 @@ class AdminPanel:
         else:
             print("Login yoki parol xato !")
 
-    ## Admin Panel
-    def run(self):
-        while True:
-            print("1. Foydalanuvchilar ro'yxatini ko'rish")
-            print("2. Avto raqamlarini ro`yhati")
-            print("3. Avto raqamlarini qo'shish")
-            print("4. Avto raqamlarini o'chirish")
-            print("5. Avto raqamlarini tahrirlash")
-            print("6. Sotilgan raqamlar ro`yhati ")
-            print("7. Avto Raqamni qidirish.")
-            print("8. Eng ko`p raqam sotib olgan foydalanuvchi")
-            print("9. Chiqish")
-            choice = input("Tanlash: ")
-            if choice == "1":
-                self.userList()
-            elif choice == "2":
-                self.numberList()
-            elif choice == "3":
-                self.requestAddNumber()
-            elif choice == "4":
-                self.delNumber()
-            elif choice == "5":
-                self.editNumber()
-            elif choice == "6":
-                self.soldNumberList()
-            elif choice == "7":
-                self.searchNumber()
-            elif choice == "8":
-                self.mostSoldUser()
-            elif choice == "9":
-                break
+

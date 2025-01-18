@@ -127,12 +127,12 @@ class UserPanel:
         if number.isdigit():
             if self.checkNumberId(int(number)):
                 for number in self.__numbers:
-                    if number.number == number:
-                        print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
+                    if number.number in number and number.isSold == False:
+                        print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} ")
             else:
                 print("Raqam mavjud emas")
         else:
-            print("Raqam id ni xato formatda  (50R174QA)!")
+            print("Raqam id ni xato formatda  !")
 
     def userPanel(self, user: User):
         while True:
@@ -157,7 +157,7 @@ class UserPanel:
             elif choice == "5":
                 self.editProfile(user)
             elif choice == "6":
-                self.searchNumber(user)
+                self.searchNumber()
             elif choice == "7":
                 sure = input("Chiqishni xohlaysizmi ? (y/n): ")
                 if sure == "y":
