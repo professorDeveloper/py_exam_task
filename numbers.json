@@ -1,2 +1,16 @@
 [
+    {
+        "id": 1,
+        "number": "50R174QA",
+        "price": 123000,
+        "isSold": true,
+        "owner": "johndoe"
+    },
+    {
+        "id": 2,
+        "number": "10A111AA",
+        "price": 9999999,
+        "isSold": false,
+        "owner": null
+    }
 ]
