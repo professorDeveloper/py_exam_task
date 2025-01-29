@@ -42,37 +42,20 @@ Admin : ( pinCode )
 
 ## Structure of Data Saver
 `````
-{
-    "users": [
-        {
-            "username": "username",
-            "password": "password",
-            "address": "address",
-            "numbers": [
-                {
-                    "id": 1,
-                    "number": 12345678,
-                    "price": 10000,
-                    "isSold": true
-                }
-            ]
-        }
-    ],
-    "numbers": [
-        {
-            "id": 1,
-            "number": 12345678,
-            "price": 10000,
-            "isSold": true
-        }
-    ],
-    "admins": [
-        {
-            "pinCode": 1234
-        }
-    ]
-}
-
+[
+    {
+        "login": "213",
+        "manzil": "123",
+        "parol": "123",
+        "my_numbers": []
+    },
+    {
+        "login": "GG",
+        "manzil": "GG",
+        "parol": "GG",
+        "my_numbers": []
+    }
+]
 `````
 ## **Note**
 ### - **PinCode** : 1234

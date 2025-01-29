@@ -87,7 +87,7 @@ class UserPanel:
     def myNumber(self, user: User):
         if len(user.my_numbers) != 0:
             for number in user.my_numbers:
-                print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} | Sotilgan: {number.isSold}")
+                print(f"Id: {number.id} | Raqam: {number.number} | Narx: {number.price} ")
         else:
             print("Sizda raqamlar mavjud emas")
 
